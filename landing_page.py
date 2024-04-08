@@ -1,7 +1,7 @@
 import streamlit as st
 
 def show_landing_page():
-    # Set page configuration
+    # Set page configuration for landing page
     st.set_page_config(page_title="Tile Adhesive Solution", page_icon=":adhesive_bandage:", layout="wide", initial_sidebar_state="expanded")
 
     # Custom CSS to change background color
@@ -16,7 +16,7 @@ def show_landing_page():
         unsafe_allow_html=True
     )
 
-    st.image('construction.py', use_column_width=True)
+    st.image('construction.jpg', use_column_width=True)
     st.title('Tile Adhesive Solution')
     st.write('Welcome to Tile Adhesive Solution!')
     st.write('This web application helps you check the availability of materials from different brands and areas.')
