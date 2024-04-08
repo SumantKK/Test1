@@ -1,7 +1,22 @@
 import streamlit as st
 
 def show_landing_page():
-    st.image('construction.png', use_column_width=True)
+    # Set page configuration
+    st.set_page_config(page_title="Tile Adhesive Solution", page_icon=":adhesive_bandage:", layout="wide", initial_sidebar_state="expanded")
+
+    # Custom CSS to change background color
+    st.markdown(
+        """
+        <style>
+        .reportview-container {
+            background: linear-gradient(to right top, #00416A, #E4E5E6);
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.image('construction.py', use_column_width=True)
     st.title('Tile Adhesive Solution')
     st.write('Welcome to Tile Adhesive Solution!')
     st.write('This web application helps you check the availability of materials from different brands and areas.')
