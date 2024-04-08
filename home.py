@@ -8,25 +8,43 @@ import xgboost as xgb
 def load_data(file_path):
     return pd.read_excel(file_path)
 
-data = load_data("Survey.xlsx")
+# Define home page function
+def home_page():
+    st.image('your_image_path.jpg', use_column_width=True)
+    st.title('Tile Adhesive Solution')
+    st.write('Welcome to Tile Adhesive Solution!')
+    st.write('This web application helps you check the availability of materials from different brands and areas.')
+    st.write('We analyze data to provide insights into the availability of tile adhesives in various shops and locations.')
+    st.write('Explore the features to find the best solution for your needs.')
+
+    st.write('Description:')
+    st.write('- Analyze availability of materials from different brands and areas.')
+    st.write('- Predict quantity required based on user inputs.')
+    st.write('- Estimate area coverage and total weight of tile adhesives.')
+
+    st.write('Benefits:')
+    st.write('- Efficiently find the right tile adhesive for your project.')
+    st.write('- Save time by predicting quantity requirements.')
+    st.write('- Make informed decisions based on availability and estimated coverage.')
 
 # Main function to build the web app
 def main():
-    st.title('Tile Adhesive Solution')
-    st.write('Check availability for available materials of different brands and areas')
-
+    # Load data
+    data = load_data("Survey.xlsx")
+    
     # Sidebar
     st.sidebar.title('Features')
-    feature_select = st.sidebar.selectbox('Select Feature', ['Shop Name', 'Brand Name', 'Pin Code', 'Prediction Model'])
+    feature_select = st.sidebar.selectbox('Select Feature', ['Home', 'Shop Name', 'Brand Name', 'Pin Code', 'Prediction Model'])
 
-    if feature_select == 'Shop Name':
+    if feature_select == 'Home':
+        home_page()
+    elif feature_select == 'Shop Name':
         if 'Shop Name' in data.columns:
             shop_name = st.sidebar.selectbox('Select Shop Name', options=data['Shop Name'].unique(), format_func=lambda x: x, index=0)
             filtered_data = data[data['Shop Name'] == shop_name]
             st.write(filtered_data)
         else:
             st.sidebar.write("Shop Name data not found.")
-
     elif feature_select == 'Brand Name':
         if 'Brand' in data.columns:
             brand_name = st.sidebar.selectbox('Select Brand', options=data['Brand'].unique(), format_func=lambda x: x, index=0)
@@ -34,7 +52,6 @@ def main():
             st.write(filtered_data)
         else:
             st.sidebar.write("Brand data not found.")
-
     elif feature_select == 'Pin Code':
         if 'Pin Code' in data.columns:
             pin_code = st.sidebar.selectbox('Select Pin Code', options=data['Pin Code'].unique(), format_func=lambda x: x, index=0)
@@ -42,7 +59,6 @@ def main():
             st.write(filtered_data)
         else:
             st.sidebar.write("Pin Code data not found.")
-
     else:
         st.sidebar.write('Prediction Model')
         # Get connected dropdown options
