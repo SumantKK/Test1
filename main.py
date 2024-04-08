@@ -13,6 +13,9 @@ def load_data(file_path):
 
 data = load_data("Survey.xlsx")
 
+# Set page configuration for landing page
+st.set_page_config(page_title="Tile Adhesive Solution", page_icon=":adhesive_bandage:", layout="wide", initial_sidebar_state="expanded")
+
 def main():
     st.sidebar.title('Navigation')
     page = st.sidebar.selectbox('Go to', ['Landing Page', 'Filtered Data', 'Prediction Output'])
