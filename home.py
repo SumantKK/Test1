@@ -11,8 +11,8 @@ def load_data(file_path):
 # Define home page function
 def home_page():
     st.image('construction.png', use_column_width=True)
-    st.title('Tile Adhesive Solution')
-    st.write('Welcome to Tile Adhesive Solution!')
+    st.title('Tile Adhesive Solutions')
+    st.write('Welcome to Tile Adhesive Solutions!')
     st.write('This web application helps you check the availability of materials from different brands and areas.')
     st.write('We analyze data to provide insights into the availability of tile adhesives in various shops and locations.')
     st.write('Explore the features to find the best solution for your needs.')
@@ -26,6 +26,7 @@ def home_page():
     st.write('- Efficiently find the right tile adhesive for your project.')
     st.write('- Save time by predicting quantity requirements.')
     st.write('- Make informed decisions based on availability and estimated coverage.')
+    st.write('- Get to know about on going projects in your area and help manage the supply and demand of goods.')
 
 # Main function to build the web app
 def main():
