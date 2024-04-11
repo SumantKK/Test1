@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import xgb
+import xgboost as xgb
 
 # Load data from Excel file
 @st.cache_data
