@@ -120,10 +120,6 @@ def main():
                 st.write('Total Weight:', 30 * Value_Estimate)
                 st.write('Estimated Area of Sq Meters it will cover:', int(round(30 * Value_Estimate / 7.5)))
         
-        # Display filtered data from the Builders Data
-        builders_filtered_data = builders_data[builders_data['Address'] == address]
-        st.write('Builders Data:')
-        st.write(builders_filtered_data[['Builder Name', 'Building Name', 'Address', 'Configuration', 'Project Type', 'Total Area (Sq Mt)', 'Bags Required (20 Kg)']])
 
 if __name__ == '__main__':
     main()
