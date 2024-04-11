@@ -11,8 +11,8 @@ def load_data(file_path):
 # Define home page function
 def home_page():
     st.image('construction.png', use_column_width=True)
-    st.title('Tile Adhesive Solutions')
-    st.write('Welcome to Tile Adhesive Solutions!')
+    st.title('Tile Adhesive Solution')
+    st.write('Welcome to Tile Adhesive Solution!')
     st.write('This web application helps you check the availability of materials from different brands and areas.')
     st.write('We analyze data to provide insights into the availability of tile adhesives in various shops and locations.')
     st.write('Explore the features to find the best solution for your needs.')
@@ -26,7 +26,6 @@ def home_page():
     st.write('- Efficiently find the right tile adhesive for your project.')
     st.write('- Save time by predicting quantity requirements.')
     st.write('- Make informed decisions based on availability and estimated coverage.')
-    st.write('- Get to know about on going projects in your area and help manage the supply and demand of goods.')
 
 # Main function to build the web app
 def main():
@@ -42,29 +41,36 @@ def main():
         home_page()
     elif feature_select == 'Shop Name':
         if 'Shop Name' in survey_data.columns:
+            # Shop Name selection
             shop_name = st.sidebar.selectbox('Select Shop Name', options=survey_data['Shop Name'].unique(), format_func=lambda x: x, index=0)
             filtered_data = survey_data[survey_data['Shop Name'] == shop_name]
-            st.write(filtered_data)
+            # Display selected columns
+            st.write(filtered_data[['Shop Name', 'Brand', 'Type', 'Address', 'Approx Price Range', 'Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)']])
         else:
             st.sidebar.write("Shop Name data not found.")
     elif feature_select == 'Brand Name':
         if 'Brand' in survey_data.columns:
+            # Brand Name selection
             brand_name = st.sidebar.selectbox('Select Brand', options=survey_data['Brand'].unique(), format_func=lambda x: x, index=0)
             filtered_data = survey_data[survey_data['Brand'] == brand_name]
-            st.write(filtered_data)
+            # Display selected columns
+            st.write(filtered_data[['Brand', 'Type', 'Address', 'Approx Price Range', 'Demand']])
         else:
             st.sidebar.write("Brand data not found.")
     elif feature_select == 'Region (Address)':
         if 'Address' in survey_data.columns:
+            # Region (Address) selection
             address = st.sidebar.selectbox('Select Region (Address)', options=survey_data['Address'].unique(), format_func=lambda x: x, index=0)
             filtered_data = survey_data[survey_data['Address'] == address]
-            st.write(filtered_data)
+            # Display selected columns from the first Excel file
+            st.write(filtered_data[['Shop Name', 'Brand', 'Type', 'Address', 'Approx Price Range', 'Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)']])
             
             # Filter and display data from the second Excel file (Builders Data.xlsx)
             if 'Address' in builders_data.columns:
                 builders_filtered_data = builders_data[builders_data['Address'] == address]
+                # Display selected columns from the second Excel file
                 st.write("Builders Data:")
-                st.write(builders_filtered_data)
+                st.write(builders_filtered_data[['Builder Name', 'Building Name', 'Address', 'Configuration', 'Project Type', 'Total Area (Sq Mt)', 'Bags Required (20 Kg)']])
             else:
                 st.write("Builders Data not found.")
         else:
@@ -110,14 +116,14 @@ def main():
             # Display prediction
             if prediction is not None:
                 Value_Estimate = int(round(prediction[0]))
-                st.write('Total Quantity (30 Kg Multiples or Bags) :', Value_Estimate)
-                st.write('Total Weight :', 30 * Value_Estimate)
+                st.write('Total Quantity (30 Kg Multiples or Bags):', Value_Estimate)
+                st.write('Total Weight:', 30 * Value_Estimate)
                 st.write('Estimated Area of Sq Meters it will cover:', int(round(30 * Value_Estimate / 7.5)))
         
         # Display filtered data from the Builders Data
         builders_filtered_data = builders_data[builders_data['Address'] == address]
         st.write('Builders Data:')
-        st.write(builders_filtered_data)
+        st.write(builders_filtered_data[['Builder Name', 'Building Name', 'Address', 'Configuration', 'Project Type', 'Total Area (Sq Mt)', 'Bags Required (20 Kg)']])
 
 if __name__ == '__main__':
     main()
