@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
 from sklearn.model_selection import train_test_split
-import xgboost as xgb
+import xgb
 
 # Load data from Excel file
-@st.cache_data  # Cache the data for better performance
+@st.cache_data
 def load_data(file_path):
     return pd.read_excel(file_path)
 
@@ -34,7 +34,7 @@ def main():
     
     # Sidebar
     st.sidebar.title('Features')
-    feature_select = st.sidebar.selectbox('Select Feature', ['Home', 'Shop Name', 'Brand Name', 'Pin Code', 'Prediction Model'])
+    feature_select = st.sidebar.selectbox('Select Feature', ['Home', 'Shop Name', 'Brand Name', 'Region (Address)', 'Prediction Model'])
 
     if feature_select == 'Home':
         home_page()
@@ -52,15 +52,16 @@ def main():
             st.write(filtered_data)
         else:
             st.sidebar.write("Brand data not found.")
-    elif feature_select == 'Pin Code':
-        if 'Pin Code' in data.columns:
-            pin_code = st.sidebar.selectbox('Select Pin Code', options=data['Pin Code'].unique(), format_func=lambda x: x, index=0)
-            filtered_data = data[data['Pin Code'] == pin_code]
+    elif feature_select == 'Region (Address)':
+        if 'Address' in data.columns:
+            address = st.sidebar.selectbox('Select Region (Address)', options=data['Address'].unique(), format_func=lambda x: x, index=0)
+            filtered_data = data[data['Address'] == address]
             st.write(filtered_data)
         else:
-            st.sidebar.write("Pin Code data not found.")
+            st.sidebar.write("Region (Address) data not found.")
     else:
         st.sidebar.write('Prediction Model')
+        
         # Get connected dropdown options
         shop_name = st.selectbox('Select Shop Name', options=data['Shop Name'].unique(), format_func=lambda x: x, index=0)
         brand_name = st.selectbox('Select Brand', options=data[data['Shop Name'] == shop_name]['Brand'].unique(), format_func=lambda x: x, index=0)
@@ -71,7 +72,7 @@ def main():
             st.write('Type not available in the store.')
             return
         
-        pin_code = data[(data['Shop Name'] == shop_name) & (data['Brand'] == brand_name)]['Pin Code'].iloc[0]
+        address = data[(data['Shop Name'] == shop_name) & (data['Brand'] == brand_name)]['Address'].iloc[0]
 
         bags_20kg = st.selectbox('Quantity Required (Bags 20Kg)', options=[i for i in range(1, 101)], format_func=lambda x: str(x), index=0)
         bags_10kg = st.selectbox('Quantity Required (Bags 10Kg)', options=[i for i in range(1, 101)], format_func=lambda x: str(x), index=0)
@@ -82,7 +83,7 @@ def main():
 
         if calculate_button:
             # Define X and y for prediction
-            X = data[['Pin Code', 'Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)', 'Delivery Time (Days)']]
+            X = data[['Address', 'Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)', 'Delivery Time (Days)']]
             y = data['Total Quantity (30 Kg Bags)']
 
             # Train-test split
@@ -93,14 +94,14 @@ def main():
             model.fit(X_train, y_train)
 
             # Make prediction
-            prediction = model.predict([[pin_code, bags_20kg, bags_10kg, delivery_time]])
+            prediction = model.predict([[address, bags_20kg, bags_10kg, delivery_time]])
 
             # Display prediction
             if prediction is not None:
                 Value_Estimate = int(round(prediction[0]))
-                st.write('Total Quantity (30 Kg Multiples or Bags) :',Value_Estimate)
-                st.write('Total Weight :',30 * Value_Estimate)
-                st.write('Estimated Area of Sq Meters it will cover:', int(round(30 * Value_Estimate/7.5)))
+                st.write('Total Quantity (30 Kg Multiples or Bags) :', Value_Estimate)
+                st.write('Total Weight :', 30 * Value_Estimate)
+                st.write('Estimated Area of Sq Meters it will cover:', int(round(30 * Value_Estimate / 7.5)))
 
 if __name__ == '__main__':
     main()
