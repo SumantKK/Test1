@@ -80,6 +80,7 @@ def main():
         
         # Get connected dropdown options
         shop_name = st.selectbox('Select Shop Name', options=survey_data['Shop Name'].unique(), format_func=lambda x: x, index=0)
+        shop_name = st.selectbox('Select Address', options=survey_data['Address'].unique(), format_func=lambda x: x, index=0)
         brand_name = st.selectbox('Select Brand', options=survey_data[survey_data['Shop Name'] == shop_name]['Brand'].unique(), format_func=lambda x: x, index=0)
         type_options = survey_data[(survey_data['Shop Name'] == shop_name) & (survey_data['Brand'] == brand_name)]['Type'].unique()
         if len(type_options) > 0:
