@@ -100,7 +100,7 @@ def main():
 
         if calculate_button:
             # Define X and y for prediction
-            X = survey_data[['Address', 'Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)', 'Delivery Time (Days)']]
+            X = survey_data[['Quantity Available (Bags 20Kg)', 'Quantity Available (Bags 10Kg)', 'Delivery Time (Days)']]
             y = survey_data['Total Quantity (30 Kg Bags)']
 
             # Train-test split
@@ -111,7 +111,7 @@ def main():
             model.fit(X_train, y_train)
 
             # Make prediction
-            prediction = model.predict([[address, bags_20kg, bags_10kg, delivery_time]])
+            prediction = model.predict([[bags_20kg, bags_10kg, delivery_time]])
 
             # Display prediction
             if prediction is not None:
